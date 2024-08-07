@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import path from "path";
 import dotenv from "dotenv";
 import { connectToMongoDB } from "./db.js";
-
+import URL from "../models/urls.js";
 import router from "../route/url.js";
 
 const app = express();
@@ -14,10 +14,9 @@ const PORT = process.env.PORT || 8000;
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
-
+import { handleURLId } from "../controllers/urlId.js";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/url", router);
 
 app.get("/", (req, res) => {
   const short = nanoid(8);
@@ -27,6 +26,8 @@ app.get("/", (req, res) => {
     id: short,
   });
 });
+app.use("/api", router);
+app.use("/api", router);
 
 const startServer = async () => {
   try {
