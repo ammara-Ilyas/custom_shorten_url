@@ -1,6 +1,6 @@
 import URL from "../models/urls.js";
 
-export const handleURLId = async (req, res) => {
+export const handleShortUrl = async (req, res) => {
   const shortId = req.params.shortId;
   //   console.log("short id in controller", shortId);
 

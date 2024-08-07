@@ -1,15 +1,17 @@
 import { Router } from "express";
 import express from "express";
 
-import { handleShortUrl, handleUrl } from "../controllers/url.js";
-import { handleURLId } from "../controllers/urlId.js";
+import { handleUrl } from "../controllers/url.js";
+import { handleShortUrl } from "../controllers/urlId.js";
+import { handleURLAnalytic } from "../controllers/analytic.js";
+
 const router = express.Router();
 console.log("route");
 
 router.post("/url", handleUrl);
 
-router.post("/analytic/:shortId", handleShortUrl);
+router.post("/analytic/:shortId", handleURLAnalytic);
 
-router.get("/url/:shortId", handleURLId);
+router.get("/:shortId", handleShortUrl);
 
 export default router;

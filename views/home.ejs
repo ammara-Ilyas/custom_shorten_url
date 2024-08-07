@@ -4,23 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Styled Form</title>
+
     <style>
       body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        height: 100vh;
         margin: 0;
+        padding: 20px;
       }
       .form-container {
         background: white;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
+        width: 100%;
+        max-width: 400px;
         text-align: center;
+        margin-bottom: 20px;
       }
       .form-container input[type="text"] {
         width: calc(100% - 22px);
@@ -42,23 +45,103 @@
       .form-container button:hover {
         background-color: #0056b3;
       }
+      h1 {
+        margin: 20px 0;
+        color: #333;
+      }
+      .result-container {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+      }
+      .result-container p {
+        margin: 0 0 10px;
+      }
+      .table-container {
+        margin-top: 30px;
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+        text-align: center;
+      }
+      td {
+        text-align: center;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
     </style>
   </head>
   <body>
+    <h1>URL Shortener</h1>
+
     <div class="form-container">
-      <form method="post" action="/api/url">
-        <input type="text" name="url" placeholder="Enter Url" required />
+      <form method="POST" action="/api/url">
+        <input type="text" name="url" placeholder="Enter URL" required />
         <button type="submit">Generate</button>
       </form>
     </div>
+
+    <div class="result-container">
+      <% if (locals.id) { %>
+      <p>
+        URL Generated:
+        <a href="http://localhost:5000/api/<%= id %>"
+          >http://localhost:5000/api/url/<%= id %></a
+        >
+      </p>
+      <% } else { %>
+      <p>there is no id</p>
+      <% } %>
+    </div>
+
+    <div class="table-container">
+      <% if (locals.urls) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>S. No</th>
+            <th>ShortID</th>
+            <th>Redirect</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% urls.forEach((url, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= url.shortId %></td>
+            <td><%= url.redirectURL %></td>
+            <td><%= url.visitHistory.length %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
   </body>
 </html>
-
-<!-- <h1>Hello from server</h1>
-    <div>
-      <% if (id) { %>
-      <ul>
-        <li><%= id %></li>
-      </ul>
-      <% } %>
-    </div> -->
